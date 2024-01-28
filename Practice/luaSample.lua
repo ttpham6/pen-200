@@ -18,10 +18,6 @@
 -- <?lsp else ?>
 --     Wrong request method, goodBye! 
 -- <?lsp end ?>
-
-
-
-
 print("Hello World")
 
 print("Hello World")
