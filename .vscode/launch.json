@@ -8,7 +8,7 @@
             "type": "lua",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/Practice/luaSample.lua"
+            "program": "${workspaceFolder}/Practice/luaTutorial.lua"
         }
     ]
 }
